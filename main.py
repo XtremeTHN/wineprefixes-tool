@@ -2,11 +2,18 @@ import argparse, os, glob, sys
 
 parser = argparse.ArgumentParser("wineprefixes tool", "wineprefixes 0.0", "Herramienta para manipular directorios de windows emulados (wineprefixes)")
 
-parser.add_argument("-g", "--get", action="store", dest="get", metavar="PREFIX")
+parser.add_argument("-g", "--get", action="store", dest="get", 
+                    metavar="PREFIX")
 parser.add_argument("-l", "--list", action="store_true", dest="ls")
-parser.add_argument("-gp", "--get-path", action="store_true", dest="gpath")
-parser.add_argument("-sp", "--set-path", action="store", dest="path", metavar="path")
-parser.add_argument("-rm", "--remove", action="store", dest="rm", metavar="PREFIX")
+
+parser.add_argument("-gp", "--get-path", action="store_true", 
+                    dest="gpath")
+parser.add_argument("-sp", "--set-path", action="store", dest="path", 
+                    metavar="path")
+parser.add_argument("-n", "--new", action="store", dest="new", 
+                    metavar="NAME")
+parser.add_argument("-rm", "--remove", action="store", dest="rm", 
+                    metavar="PREFIX")
 
 obj = parser.parse_args()
 home = os.getenv("HOME")
@@ -42,3 +49,10 @@ if obj.get != None:
             print(x)
             sys.exit(0)
     sys.exit(3)
+
+if obj.new != None:
+    os.system(f'mkdir -p {os.path.join(path_prefix,obj.new)}')
+
+if obj.rm != None:
+    from shutil import rmtree
+    rmtree(os.path.join(path_prefix,obj.rm))
